@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HallOfShame = () => {
+const HallOfShame: React.FC = () => {
   return (
     <div>
       <h1>Hall of Shame</h1>

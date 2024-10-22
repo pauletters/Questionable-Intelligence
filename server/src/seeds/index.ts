@@ -1,7 +1,7 @@
-import { seedUsers } from './user-seeds';
-import { seedQuestions } from './question-seeds';
-import { seedCorrectAnswers } from './correct-answer-seeds';
-import { sequelize } from '../models/index';
+import { seedUsers } from './user-seeds.js';
+import { seedQuestions } from './question-seeds.js';
+import { seedCorrectAnswers } from './correct-answer-seeds.js';
+import { sequelize } from '../models/index.js';
 
 const seedAll = async (): Promise<void> => {
   try {

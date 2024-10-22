@@ -39,7 +39,7 @@ class AuthService {
     return localStorage.getItem('id_token');
   }
 
-// This stores the token in local storage and redirects to the Board page
+// This stores the token in local storage and redirects to the form page
   login(idToken: string): void {
     localStorage.setItem('id_token', idToken);
     window.location.assign('/form');
