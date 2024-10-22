@@ -6,7 +6,7 @@ import './index.css';
 import App from './App.tsx';
 import HallOfShame from './src/pages/HallOfShame.tsx';
 import ErrorPage from './src/pages/ErrorPage.tsx';
-import LeaderBoard from './src/pages/LeaderBoard.tsx';
+import LeaderBoard from './src/pages/Leaderboard.tsx';
 import LoginPage from './src/pages/LoginPage.tsx';
 import UserAccount from './src/pages/UserAccount.tsx';
 import QuestionPage from './src/pages/QuestionPage.tsx';
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
         element: <LoginPage />
       }, 
       {
-        path: '/leaderboard',
+        path: '/LeaderBoard',
         element: <LeaderBoard />
       },
       {
