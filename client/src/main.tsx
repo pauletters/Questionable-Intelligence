@@ -21,7 +21,7 @@ const router = createBrowserRouter([
         element: <LoginPage />
       }, 
       {
-        path: '/leaderboard',
+        path: '/LeaderBoard',
         element: <LeaderBoard />
       },
       {

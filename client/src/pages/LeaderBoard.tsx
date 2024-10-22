@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Leaderboard: React.FC = () => {
+const LeaderBoard: React.FC = () => {
   return (
     <div>
       <h1>Leaderboard</h1>
@@ -10,4 +10,4 @@ const Leaderboard: React.FC = () => {
 };
 
 
-export default Leaderboard;
+export default LeaderBoard;
