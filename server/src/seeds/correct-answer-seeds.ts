@@ -1,4 +1,4 @@
-import { CorrectAnswer } from '../models/correctAnswer';
+import { CorrectAnswer } from '../models/correctAnswer.js';
 
 export const seedCorrectAnswers = async () => {
   await CorrectAnswer.bulkCreate([

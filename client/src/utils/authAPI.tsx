@@ -8,7 +8,7 @@ const login = async (userInfo: UserLogin) => {
     passwordLength: userInfo.password ? userInfo.password.length : 'null' 
   });
   try {
-    const response = await fetch('/api/auth/login', {
+    const response = await fetch('/utils/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

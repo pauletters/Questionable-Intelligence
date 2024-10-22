@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize, Model, Optional } from 'sequelize';
-import { User } from './user';
-import { Question } from './question';
+import { User } from './user.js';
+import { Question } from './question.js';
 
 interface CorrectAnswerAttributes {
   id: number;

@@ -1,4 +1,4 @@
-import { Question } from '../models/question';
+import { Question } from '../models/question.js';
 
 export const seedQuestions = async () => {
   await Question.bulkCreate([

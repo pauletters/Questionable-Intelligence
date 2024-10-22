@@ -1,10 +1,12 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
+import * as dotenv from 'dotenv';
+import path from 'path';
 import { Sequelize } from 'sequelize';
-import { UserFactory } from './user';
-import { QuestionFactory } from './question';
-import { CorrectAnswerFactory } from './correctAnswer';
+import { UserFactory } from './user.js';
+import { QuestionFactory } from './question.js';
+import { CorrectAnswerFactory } from './correctAnswer.js';
+
+const envPath = path.resolve(process.cwd(), '.env');
+dotenv.config({ path: envPath});
 
 const sequelize = process.env.DB_URL
   ? new Sequelize(process.env.DB_URL)
