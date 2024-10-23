@@ -43,9 +43,57 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+export const register = async (req: Request, res: Response) => {
+  console.log('Register request received', req.body);
+  const { username, password } = req.body;
+
+  try {
+    // Count the number of users before registration
+    const beforeCount = await User.count();
+    console.log(`Total users in database before registration: ${beforeCount}`);
+
+    // Check if the user already exists
+    const existingUser = await User.findOne({ where: { username } });
+    if (existingUser) {
+      console.log(`User ${username} already exists`);
+      return res.status(400).json({ message: 'Username already exists' });
+    }
+
+    // Create new user
+    const newUser = await User.create({ username, password});
+    console.log(`User ${username} created successfully`);
+
+    const verifyUser = await User.findByPk(newUser.id);
+    if (verifyUser) {
+      console.log(`User ${username} found in database`);
+      const afterCount = await User.count();
+      console.log(`Total users in database after registration: ${afterCount}`);
+    }
+
+     // Return success without token (user needs to login)
+     return res.status(201).json({ 
+      message: 'User created successfully',
+      username: newUser.username 
+    });
+
+  } catch (error) {
+    console.error('Registration error:', error);
+    if (error instanceof Error){
+      return res.status(500).json({
+        message: 'Failed to create user',
+        error: error.message
+      })
+    }
+    return res.status(500).json({ message: 'Failed to create user' });
+  }
+};
+
 const router = Router();
 
 // POST /login - Login a user
 router.post('/login', login);
+
+// POST /register - Register a new user
+router.post('/register', register);
 
 export default router;
