@@ -1,5 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import auth from '../utils/auth';
+
+
+const handleLogout = () => {
+  auth.logout();
+  const navigate = useNavigate();
+  navigate('/', { replace: true }); // Redirect to home page after logout
+}
+
 
 const Nav: React.FC = () => {
   return (
@@ -55,6 +65,11 @@ const Nav: React.FC = () => {
             User Account
           </NavLink>
         </li>
+        <li className='nav-item'>
+            <button type='button' onClick={handleLogout}>
+              Logout
+            </button>
+          </li>
       </ul>
     </nav>
   );
