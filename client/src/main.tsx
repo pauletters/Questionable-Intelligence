@@ -9,6 +9,8 @@ import LeaderBoard from './pages/LeaderBoard.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import UserAccount from './pages/UserAccount.tsx';
 import QuestionPage from './pages/QuestionPage.tsx';
+import Form from './pages/Form.tsx';
+import Results from './pages/Results.tsx';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
       {
         path: '/QuestionPage',
         element: <QuestionPage />
+      },
+      {
+        path: '/Form',
+        element: <Form />
+      },
+      {
+        path: 'Results',
+        element: <Results />
       }
     ]
   }
