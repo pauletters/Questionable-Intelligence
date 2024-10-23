@@ -4,6 +4,12 @@ import bcrypt from 'bcrypt';
 export const seedUsers = async () => {
   const saltRounds = 10;
 
+  const userCount = await User.count();
+  if (userCount > 0) {
+    console.log(`Skipping user seeding - ${userCount} users already exist`);
+    return;
+  }
+
   // Hash the passwords
   const hashedUsers = await Promise.all([
     {
@@ -21,5 +27,6 @@ export const seedUsers = async () => {
   ]);
 
   // Seed the users with hashed passwords
-  await User.bulkCreate(hashedUsers);
+  const createdUsers = await User.bulkCreate(hashedUsers);
+  console.log(`Created ${createdUsers.length} initial users`);
 };
