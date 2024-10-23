@@ -1,8 +1,8 @@
 import { User } from '../models/user.js';
-//import bcrypt from 'bcrypt';
+
 
 export const seedUsers = async () => {
-  //const saltRounds = 10;
+  
 
   await User.bulkCreate([
     {
