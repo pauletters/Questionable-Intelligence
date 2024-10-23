@@ -16,7 +16,6 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -43,8 +42,12 @@ const router = createBrowserRouter([
         element: <Form />
       },
       {
-        path: 'Results',
+        path: '/Results',
         element: <Results />
+      },
+      {
+        path: '*',
+        element: <ErrorPage />
       }
     ]
   }
