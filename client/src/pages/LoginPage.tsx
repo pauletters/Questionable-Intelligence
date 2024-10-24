@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Auth from '../utils/auth';
 import { login } from "../utils/authAPI";
 
+
 // This component is responsible for rendering the login form
 const Login = () => {
   const navigate = useNavigate();
