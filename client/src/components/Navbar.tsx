@@ -12,18 +12,28 @@ const handleLogout = () => {
 
 
 const Nav: React.FC = () => {
+
+  const navigate = useNavigate();
+  
+  const handleHomeClick = () => {
+    if (auth.loggedIn()) { // Check if the user is logged in
+      navigate('/Form'); // Redirect to the form page
+    } else {
+      navigate('/'); // Redirect to the login page
+    }
+  };
+
+
   return (
     <nav className="nav">
       <ul style={{ display: 'flex', padding: 0, margin: 0 }}>
         <li className="nav-item">
-          <NavLink 
-            to="/"
-            className={({ isActive }) => 
-              `nav-link ${isActive ? 'active' : ''}`
-            }
+          <button
+            className="nav-link" 
+            onClick={handleHomeClick} // Use button for home link
           >
             Home
-          </NavLink>
+          </button>
         </li>
         <li className="nav-item">
           <NavLink 
