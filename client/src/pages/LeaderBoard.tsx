@@ -2,7 +2,7 @@ import React from 'react';
 
 const LeaderBoard: React.FC = () => {
   return (
-    <div>
+    <div className='card'>
       <h1>Leaderboard</h1>
       <p>Are you winning?</p>
     </div>
