@@ -228,7 +228,6 @@ tbody tr:nth-child(odd) {
 .container {
   /* margin: auto; */
   width: 100%;
-  margin-left: -25%;
   /* height: 90%; */
 }
 
@@ -240,15 +239,15 @@ tbody tr:nth-child(odd) {
 
 .form {
   width: 25rem;
-  height: 60%;
+  height: 45rem;
   background-color: #193ddb6e;
-  margin-left: 50%;
+  margin-left: 10rem;
   padding: 2.5%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 15%;
+  margin-top: 2rem;
   box-shadow: #ad41eb 0px 0px 10px;
   border-radius: 10px;
 }
@@ -276,6 +275,11 @@ tbody tr:nth-child(odd) {
   min-height: 30px;
   min-width: 30px;
 }
+
+.shadow-text {
+    text-shadow: 2px 2px 4px #3fc9ff; /* Horizontal offset, vertical offset, blur radius, color */
+}
+
 
 .editBtn {
   background-color: #f9f9f9;
