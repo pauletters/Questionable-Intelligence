@@ -105,7 +105,7 @@ class AuthService {
     localStorage.setItem('id_token', idToken);
     this.lastActivityTime = Date.now();
     this.resetInactivityTimer();
-    window.location.assign('/form');
+    window.location.assign('/Form');
   }
 
   // This removes the token from local storage and redirects to the login page

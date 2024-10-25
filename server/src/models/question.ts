@@ -5,9 +5,9 @@ interface QuestionAttributes {
   text: string;
   category: string;
   difficulty: string;
-  type: string;
   correctAnswer: string;
   incorrectAnswers: string[];
+  type: string;  // Added property to differentiate between Multiple Choice and True/False
 }
 
 interface QuestionCreationAttributes extends Optional<QuestionAttributes, 'id'> {}
@@ -17,9 +17,9 @@ export class Question extends Model<QuestionAttributes, QuestionCreationAttribut
   public text!: string;
   public category!: string;
   public difficulty!: string;
-  public type!: string;
   public correctAnswer!: string;
   public incorrectAnswers!: string[];
+  public type!: string;  // 'multiple' or 'boolean' to represent the question type
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -46,16 +46,16 @@ export function QuestionFactory(sequelize: Sequelize): typeof Question {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      type: {
-        type: DataTypes.STRING,
-        allowNull: false,  // 'multiple' or 'boolean'
-      },
       correctAnswer: {
         type: DataTypes.STRING,
-        allowNull: false,  // Correct answer
+        allowNull: false,
       },
       incorrectAnswers: {
-        type: DataTypes.ARRAY(DataTypes.STRING),  // Incorrect answers stored as an array of strings
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: false,
+      },
+      type: {
+        type: DataTypes.ENUM('multiple', 'boolean'),  // Define as 'multiple' or 'boolean'
         allowNull: false,
       },
     },
@@ -64,6 +64,5 @@ export function QuestionFactory(sequelize: Sequelize): typeof Question {
       sequelize,
     }
   );
-
   return Question;
 }
