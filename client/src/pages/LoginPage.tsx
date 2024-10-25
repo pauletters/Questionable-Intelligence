@@ -98,6 +98,7 @@ const toggleForm = () => {
 };
 
   return (
+    <main>
     <div>
       <form className='form' onSubmit={isLogin ? handleLogin : handleSignup}>
         <h2 className="shadow-text">Questionable Intelligence</h2>
@@ -141,7 +142,7 @@ const toggleForm = () => {
         {error && <div className='error'>{error}</div>}
       </form>
     </div>
-    
+    </main>
   )
 };
 

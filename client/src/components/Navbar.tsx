@@ -1,11 +1,12 @@
 import React from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import auth from '../utils/auth';
 
 
 const Nav: React.FC = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
   
   const handleLogout = () => {
     auth.logout();
@@ -20,13 +21,13 @@ const Nav: React.FC = () => {
     }
   };
 
-  if (!auth.loggedIn()) {
+  if (!auth.loggedIn() || location.pathname === '/') {
     return null; // Do not render the nav bar if the user is not logged in
   }
 
   return (
     <nav className="nav">
-      <ul style={{ display: 'flex', padding: 0, margin: 0 }}>
+      <ul>
         <li className="nav-item">
           <button className="nav-button"
             onClick={handleHomeClick} // Use button for home link
@@ -65,7 +66,7 @@ const Nav: React.FC = () => {
           </NavLink>
         </li>
         <li className='nav-item'>
-            <button type='button' onClick={handleLogout}>
+            <button className="nav-button" onClick={handleLogout}>
               Logout
             </button>
           </li>
