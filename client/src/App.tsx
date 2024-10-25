@@ -4,7 +4,7 @@ import Navbar from './components/Navbar.tsx';
 function App() {
 
   return (
-    <div className='container'>
+    <div>
       <Navbar />
       <main>
         <Outlet />

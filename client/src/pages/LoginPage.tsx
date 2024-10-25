@@ -98,7 +98,7 @@ const toggleForm = () => {
 };
 
   return (
-    <div className='container'>
+    <div>
       <form className='form' onSubmit={isLogin ? handleLogin : handleSignup}>
         <h2 className="shadow-text">Questionable Intelligence</h2>
         <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '150px', borderRadius: '50%' }} />

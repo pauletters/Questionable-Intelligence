@@ -115,9 +115,9 @@ tbody tr:nth-child(odd) {
 /* Navbar Content */
 .nav {
   display: flex;
-  width: 150%;
   padding: 2em 1.2em;
   justify-content: center;
+  margin-left: 165px;
 }
 
 .nav ul {
@@ -212,7 +212,6 @@ tbody tr:nth-child(odd) {
 
 .page-layout {
   width: 85rem;
-  margin-left: 48%;
   height: 60%;
   background-color: #193ddb6e;
   padding: 2.5%;
@@ -241,7 +240,6 @@ tbody tr:nth-child(odd) {
   width: 25rem;
   height: 45rem;
   background-color: #193ddb6e;
-  margin-left: 10rem;
   padding: 2.5%;
   display: flex;
   flex-direction: column;
@@ -446,7 +444,6 @@ tbody tr:nth-child(odd) {
   .form {
     width: 90%;
     height: auto;
-    margin-left: 48%;
     padding: 5%;
     margin-top: 10%;
   }
@@ -457,7 +454,6 @@ tbody tr:nth-child(odd) {
   .form {
     width: 25rem;
     height: auto;
-    margin-left: 50%;
     padding: 4%;
     margin-top: 12%;
   }
@@ -468,7 +464,6 @@ tbody tr:nth-child(odd) {
   .form {
     width: 25rem;
     height: 50%;
-    margin-left: 50%;
     padding: 3%;
     margin-top: 15%;
   }
@@ -477,18 +472,39 @@ tbody tr:nth-child(odd) {
 /* Extra small devices (phones, less than 576px) */
 @media (max-width: 575.98px) {
   .page-layout {
-    width: 90%;
-    margin-left: 50%;
+    width: 15rem;
     height: 50%;
     padding: 5%;
   }
 }
 
-/* Small devices (tablets, 576px and up) */
-@media (min-width: 576px) and (max-width: 767.98px) {
+
+@media (max-width: 767.98px) {
   .page-layout {
-    width: 80%;
-    margin-left: 45%;
+    width: 18rem;
+    margin-left: 15.75rem;
     padding: 4%;
+  }
+}
+
+@media (min-width: 991.98px) {
+  .page-layout {
+    width: 45rem;
+    margin-left: 5rem;
+    padding: 3%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .page-layout {
+    width: 30rem;
+    margin-left: 11rem;
+    padding: 3%;
+  }
+}
+@media (min-width: 1160px) {
+  .page-layout {
+    width: 100%;
+    padding: 2%;
   }
 }
