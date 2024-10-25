@@ -28,7 +28,7 @@ The application was deployed on Render to host the application. The application 
 
 The application was deployed to Render.com.
 
-[Link here](https://.onrender.com)
+https://questionable-intelligence.onrender.com
 
     
 ## Screenshot
