@@ -4,17 +4,11 @@ import { Sequelize } from 'sequelize';
 import { UserFactory } from './user.js';
 import { QuestionFactory } from './question.js';
 import { AnswerFactory } from './answer.js';
-import { QuizSessionFactory } from './quizSession.js';  // Import QuizSession
+import { QuizSessionFactory } from './quizSession.js';
 
 // Load environment variables
 const envPath = path.resolve(process.cwd(), '.env');
 dotenv.config({ path: envPath });
-
-// Log DB connection details for debugging
-console.log('DB_URL:', process.env.DB_URL);
-console.log('DB_NAME:', process.env.DB_NAME);
-console.log('DB_USER:', process.env.DB_USER);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
 
 // Initialize Sequelize instance
 const sequelize = process.env.DB_URL
@@ -30,20 +24,24 @@ const sequelize = process.env.DB_URL
 // Initialize models with Sequelize instance
 const User = UserFactory(sequelize);
 const Question = QuestionFactory(sequelize);
-const Answer = AnswerFactory(sequelize);  // Updated name for consistency
-const QuizSession = QuizSessionFactory(sequelize);  // Initialize QuizSession
+const Answer = AnswerFactory(sequelize);
+const QuizSession = QuizSessionFactory(sequelize);
 
-// Define relationships
-User.hasMany(Answer, { foreignKey: 'userId' });
-Question.hasMany(Answer, { foreignKey: 'questionId' });
-Answer.belongsTo(User, { foreignKey: 'userId' });
-Answer.belongsTo(Question, { foreignKey: 'questionId' });
+// Define relationships with consistent aliasing
+User.hasMany(Answer, { foreignKey: 'userId', as: 'answers' });  // Alias set to 'answers'
+Question.hasMany(Answer, { foreignKey: 'questionId', as: 'questionAnswers' });
+Answer.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+Answer.belongsTo(Question, { foreignKey: 'questionId', as: 'question' });
 
-User.hasMany(QuizSession, { foreignKey: 'userId' });  // A user can have many quiz sessions
-QuizSession.belongsTo(User, { foreignKey: 'userId' });  // Each quiz session belongs to a user
+User.hasMany(QuizSession, { foreignKey: 'userId', as: 'quizSessions' });
+QuizSession.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
-QuizSession.hasMany(Answer, { foreignKey: 'quizSessionId' });  // A quiz session can have many answers
-Answer.belongsTo(QuizSession, { foreignKey: 'quizSessionId' });  // Each answer belongs to a quiz session
+QuizSession.hasMany(Answer, { foreignKey: 'quizSessionId', as: 'sessionAnswers' });
+Answer.belongsTo(QuizSession, { foreignKey: 'quizSessionId', as: 'quizSession' });
 
 // Export Sequelize instance and models
 export { sequelize, User, Question, Answer, QuizSession };
+export * from './user.js';
+export * from './question.js';
+export * from './answer.js';
+export * from './quizSession.js';

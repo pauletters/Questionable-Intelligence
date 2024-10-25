@@ -18,7 +18,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     // Checks if the password is valid
-    const isPasswordValid = await user.checkPassword(password);
+    const isPasswordValid = await user.validatePassword(password);  // Updated method name here
     console.log(`Password valid: ${isPasswordValid}`);
 
     if (!isPasswordValid) {
@@ -28,9 +28,9 @@ export const login = async (req: Request, res: Response) => {
 
     // Creates a token
     const token = jwt.sign(
-      {id: user.id, username: user.username},
+      { id: user.id, username: user.username },
       process.env.JWT_SECRET_KEY as string,
-      {expiresIn: '1hr'}
+      { expiresIn: '1hr' }
     );
     console.log('Token generated successfully');
 
@@ -60,7 +60,7 @@ export const register = async (req: Request, res: Response) => {
     }
 
     // Create new user
-    const newUser = await User.create({ username, password});
+    const newUser = await User.create({ username, password });
     console.log(`User ${username} created successfully`);
 
     const verifyUser = await User.findByPk(newUser.id);
@@ -70,19 +70,19 @@ export const register = async (req: Request, res: Response) => {
       console.log(`Total users in database after registration: ${afterCount}`);
     }
 
-     // Return success without token (user needs to login)
-     return res.status(201).json({ 
+    // Return success without token (user needs to login)
+    return res.status(201).json({ 
       message: 'User created successfully',
       username: newUser.username 
     });
 
   } catch (error) {
     console.error('Registration error:', error);
-    if (error instanceof Error){
+    if (error instanceof Error) {
       return res.status(500).json({
         message: 'Failed to create user',
-        error: error.message
-      })
+        error: error.message,
+      });
     }
     return res.status(500).json({ message: 'Failed to create user' });
   }

@@ -12,7 +12,7 @@ router.get('/:quizSessionId', async (req: Request, res: Response) => {
     // Fetch all answers for the given quiz session, including the related question data
     const answers = await Answer.findAll({
       where: { quizSessionId },
-      include: [Question],  // This will include the question data related to the answer
+      include: [{model: Question, as: 'question'}],  // This will include the question data related to the answer
     });
 
     // If no answers found, return 404
