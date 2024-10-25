@@ -2,7 +2,7 @@ import React from 'react';
 
 const UserAccount: React.FC = () => {
   return (
-    <div className='card'>
+    <div className='page-layout'>
       <h1>User Account</h1>
       <p>Here you can view your overall game statistics.</p>
     </div>
