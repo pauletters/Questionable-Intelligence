@@ -1,5 +1,11 @@
 import React from 'react';
 
+interface HallOfShameProps {
+  name: string;
+  score: number;
+}
+
+
 const HallOfShame: React.FC = () => {
   return (
     <div className='card'>
