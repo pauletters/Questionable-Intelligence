@@ -36,16 +36,6 @@ const Nav: React.FC = () => {
         </li>
         <li className="nav-item">
           <NavLink 
-            to="/QuestionPage"
-            className={({ isActive }) => 
-              `nav-link ${isActive ? 'active' : ''}`
-            }
-          >
-            Questions
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink 
             to="/LeaderBoard"
             className={({ isActive }) => 
               `nav-link ${isActive ? 'active' : ''}`
