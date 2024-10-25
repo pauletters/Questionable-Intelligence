@@ -98,7 +98,7 @@ const toggleForm = () => {
 };
 
   return (
-    <div className='container'>
+    <div>
       <form className='form' onSubmit={isLogin ? handleLogin : handleSignup}>
         <h1>{isLogin ? 'Login' : 'Create Account'}</h1>
         <label >Username</label>
