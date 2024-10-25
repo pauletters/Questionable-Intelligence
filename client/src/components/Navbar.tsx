@@ -28,10 +28,12 @@ const Nav: React.FC = () => {
     <nav className="nav">
       <ul style={{ display: 'flex', padding: 0, margin: 0 }}>
         <li className="nav-item">
-          <button className="nav-button"
+          <button className="nav-button home-button"
             onClick={handleHomeClick} // Use button for home link
           >
-            Home
+            <img 
+            src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" 
+            alt="Home" style={{ width: '45px', height: '45px' }}/>
           </button>
         </li>
         <li className="nav-item">

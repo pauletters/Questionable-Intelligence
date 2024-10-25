@@ -7,6 +7,8 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   font-synthesis: none;
+  width:auto;
+  justify-content: center;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -142,7 +144,7 @@ tbody tr:nth-child(odd) {
   margin-left: auto;
   margin-right: 5rem;
   list-style: none;
-  justify-content: space-between;
+  justify-content:baseline;
 
 }
 
@@ -158,6 +160,26 @@ tbody tr:nth-child(odd) {
   padding: 0.6em 1.2em;
   cursor: pointer;
   transition: border-color 0.25s;
+}
+
+.home-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.home-icon {
+    width: 24px;  
+    height: 24px;
+    transition: transform 0.2s;
+}
+  
+.home-button:hover .home-icon {
+    transform: scale(1.1);
 }
 
 .active {
@@ -240,7 +262,7 @@ tbody tr:nth-child(odd) {
   width: 25rem;
   height: 45rem;
   background-color: #193ddb6e;
-  padding: 2.5%;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
