@@ -3,18 +3,15 @@ import { useNavigate } from "react-router-dom";
 import Auth from '../utils/auth';
 import { login } from "../utils/authAPI";
 
-
-// This component is responsible for rendering the login form
 const Login = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(true); // Toggle between login and signup
 
   const [formData, setFormData] = useState({
     username: '',
     password: '',
     confirmPassword: ''
   });
-
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -25,26 +22,33 @@ const Login = () => {
     });
   };
 
-  // This function will handle the submission of the form and sends an error message if the login fails
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     try {
       console.log('Submitting login form');
-      const token = await login(formData);
-      console.log('Token received:', token ? 'Yes' : 'No')
-      if (!token){
-        throw new Error('No token received');
+      const { token, userId } = await login(formData);
+      console.log('Token received:', token ? 'Yes' : 'No');
+
+      if (!token || !userId) {
+        throw new Error('No token or user ID received');
       }
+
+      // Log the user in
       Auth.login(token);
-      console.log('Login successful, redirecting to /board');
-      navigate('/form');
+
+      // Store userId in localStorage or pass it directly as state
+      localStorage.setItem('userId', userId); // Store userId in localStorage
+
+      // Navigate to Form and pass userId as state
+      console.log('Login successful, redirecting to /Form');
+      navigate('/Form', { state: { userId } }); // Updated to `/Form` with a capital F
+
     } catch (err) {
       console.error('Failed to login', err);
       setError('Invalid username or password');
     }
   };
 
-  // This function handles the creation of a new account and sends an error message if the account creation fails
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -65,37 +69,32 @@ const Login = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept' : 'application/json'
+          'Accept': 'application/json',
         },
-        // The credentials: 'include' option sends the cookie along with the request.
         credentials: 'include',
         body: JSON.stringify({
           username: formData.username,
-          password: formData.password
-        })
+          password: formData.password,
+        }),
       });
 
       await response.json();
+      console.log('Signup successful, please log in');
+      setFormData({ username: '', password: '', confirmPassword: '' });
+      setError('Account created! Please log in.');
 
-    console.log('Signup successful, logging in');
+    } catch (err: any) {
+      console.error('Failed to signup', err);
+      setError('Failed to create account. Please try again.');
+    }
+  };
+
+  // This function will toggle the form between login and signup
+  const toggleForm = () => {
+    setIsLogin(!isLogin);
+    setError(null);
     setFormData({ username: '', password: '', confirmPassword: '' });
-    setIsLogin(true);
-    setError('Account created! Please log in.');
-
-  } catch (err: any) {
-    console.error('Failed to signup', err);
-    if (err.message.includes('Validation error')) {
-    setError('Failed to create account. Please try again.');
-  }
-}
-};
-
-// This function will toggle the form between login and signup
-const toggleForm = () => {
-  setIsLogin(!isLogin);
-  setError(null);
-  setFormData({ username: '', password: '', confirmPassword: '' });
-};
+  };
 
   return (
     <main>
@@ -104,7 +103,7 @@ const toggleForm = () => {
         <h2 className="shadow-text">Questionable Intelligence</h2>
         <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '150px', borderRadius: '50%' }} />
         <h1>{isLogin ? 'Login' : 'Create Account'}</h1>
-        <label >Username</label>
+        <label>Username</label>
         <input 
           type='text'
           name='username'
