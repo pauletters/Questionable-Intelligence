@@ -1,9 +1,8 @@
 import { DataTypes, Sequelize, Model, Optional } from 'sequelize';
-import { User } from './user';
-import { Question } from './question';
-import { QuizSession } from './quizSession.js'; // Ensure 'quizSession.ts' exists in the same directory
+import { User } from './user.js';
+import { Question } from './question.js';
+import { QuizSession } from './quizSession.js';
 
-// Updated interface for calculated attributes as virtual fields
 export interface AnswerAttributes {
   id: number;
   userId: number;
@@ -11,9 +10,8 @@ export interface AnswerAttributes {
   quizSessionId: number;
   userAnswer: string;
   isCorrect: boolean;
-  category: string;
-  totalQuestions?: number; // Virtual attribute
-  correctAnswers?: number;  // Virtual attribute
+  violation: boolean; // Tracks if user switched focus or violated the quiz rules
+  category?: string;  // Optional, if category is based on the question's category
 }
 
 interface AnswerCreationAttributes extends Optional<AnswerAttributes, 'id'> {}
@@ -25,15 +23,13 @@ export class Answer extends Model<AnswerAttributes, AnswerCreationAttributes> im
   public quizSessionId!: number;
   public userAnswer!: string;
   public isCorrect!: boolean;
-  public category!: string;
-
-  // Calculated fields for queries, not stored in the database
-  public totalQuestions?: number;
-  public correctAnswers?: number;
+  public violation!: boolean;
+  public category?: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
+  // Associations with other models
   public readonly user?: User;
   public readonly question?: Question;
   public readonly quizSession?: QuizSession;
@@ -79,24 +75,14 @@ export function AnswerFactory(sequelize: Sequelize): typeof Answer {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
+      violation: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       category: {
         type: DataTypes.STRING,
-        allowNull: false,
-      },
-      // Virtual fields for calculation purposes
-      totalQuestions: {
-        type: DataTypes.VIRTUAL(DataTypes.INTEGER),
-        get() {
-          // Typically calculated in SQL queries, no direct getter logic here
-          return null;
-        },
-      },
-      correctAnswers: {
-        type: DataTypes.VIRTUAL(DataTypes.INTEGER),
-        get() {
-          // Typically calculated in SQL queries, no direct getter logic here
-          return null;
-        },
+        allowNull: true, // Optional field
       },
     },
     {
@@ -104,5 +90,6 @@ export function AnswerFactory(sequelize: Sequelize): typeof Answer {
       sequelize,
     }
   );
+
   return Answer;
 }

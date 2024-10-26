@@ -1,16 +1,28 @@
+// src/controllers/user-stats-controller.ts
 import { Request, Response } from 'express';
 import { User, Answer, sequelize } from '../models/index.js';
+
+// Define custom types for the data structure returned by Sequelize aggregations
+interface UserStatsAttributes {
+  username: string;
+  questionsAnswered: number;
+  correctAnswers: number;
+  percentageCorrect: number;
+  bestCategory?: string;
+  worstCategory?: string;
+}
+
 
 export const getUserStats = async (req: Request, res: Response): Promise<void> => {
   try {
     if (!req.user) {
-      res.status(400).json({ message: 'User information is missing from the request' });
+      res.status(401).json({ error: 'Unauthorized user' });
       return;
     }
 
-    const userId = req.user.id; // Assuming user ID is available in the request object
+    const userId = req.user.id;
 
-    // Fetching user statistics
+    // Fetch general statistics for the user
     const userStats = await User.findOne({
       where: { id: userId },
       attributes: [
@@ -23,7 +35,6 @@ export const getUserStats = async (req: Request, res: Response): Promise<void> =
           ),
           'correctAnswers',
         ],
-        // Calculate the percentage correct overall
         [sequelize.literal(`
           CASE 
             WHEN COUNT("answers"."id") > 0 THEN 
@@ -32,22 +43,20 @@ export const getUserStats = async (req: Request, res: Response): Promise<void> =
           END
         `), 'percentageCorrect'],
       ],
-      include: [
-        {
-          model: Answer,
-          as: 'answers',
-          attributes: [],
-        },
-      ],
+      include: [{
+        model: Answer,
+        as: 'answers',
+        attributes: [],
+      }],
       group: ['User.id'],
     });
 
     if (!userStats) {
-      res.status(404).json({ message: 'User not found' });
-      return; // Ensure you return after sending a response
+      res.status(404).json({ error: 'User not found' });
+      return;
     }
 
-    // Fetch the best and worst categories
+    // Fetch best and worst categories
     const categoryStats = await Answer.findAll({
       attributes: [
         'category',
@@ -62,29 +71,31 @@ export const getUserStats = async (req: Request, res: Response): Promise<void> =
       ],
       where: { userId },
       group: ['category'],
-      having: sequelize.where(sequelize.fn('COUNT', sequelize.col('id')), '>', 0), // Only consider categories with questions answered
+      having: sequelize.where(sequelize.fn('COUNT', sequelize.col('id')), '>', 0),
     });
 
-    // Calculate percentages and determine best/worst categories
+    // Calculate best and worst categories
     let bestCategory = { category: '', percentage: 0 };
-    let worstCategory = { category: '', percentage: 100 }; // Start worst category at 100%
+    let worstCategory = { category: '', percentage: 100 };
 
-    categoryStats.forEach((category) => {
-      const totalQuestions = category.getDataValue('totalQuestions');
-      const correctAnswers = category.getDataValue('correctAnswers') || 0;
+    categoryStats.forEach((categoryStat: any) => {
+      const totalQuestions = categoryStat.getDataValue('totalQuestions');
+      const correctAnswers = categoryStat.getDataValue('correctAnswers') || 0;
       const percentage = totalQuestions ? (correctAnswers / totalQuestions) * 100 : 0;
 
       if (percentage > bestCategory.percentage) {
-        bestCategory = { category: category.getDataValue('category') as string, percentage };
+        bestCategory = { category: categoryStat.getDataValue('category'), percentage };
       }
       if (percentage < worstCategory.percentage) {
-        worstCategory = { category: category.getDataValue('category') as string, percentage };
+        worstCategory = { category: categoryStat.getDataValue('category'), percentage };
       }
     });
 
-    // Prepare the response object
-    const responseStats = {
-      ...userStats.get(),
+    const responseStats: UserStatsAttributes = {
+      username: userStats.getDataValue('username'),
+      questionsAnswered: Number((userStats as any).getDataValue('questionsAnswered')) ?? 0,
+      correctAnswers: userStats.getDataValue('correctAnswers') ?? 0,
+      percentageCorrect: Number((userStats as any).getDataValue('percentageCorrect')) ?? 0,
       bestCategory: bestCategory.category,
       worstCategory: worstCategory.category,
     };
@@ -92,6 +103,6 @@ export const getUserStats = async (req: Request, res: Response): Promise<void> =
     res.json(responseStats);
   } catch (error) {
     console.error('Error fetching user stats:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ error: 'Server error' });
   }
 };

@@ -73,7 +73,7 @@ const Form: React.FC = () => {
       const questionsData = await questionsResponse.json();
       
       if (questionsData && questionsData.length > 0) {
-        navigate('/QuestionPage', {
+        navigate('/Quiz', {
           state: {
             userId,
             quizSessionId: data.quizSessionId,

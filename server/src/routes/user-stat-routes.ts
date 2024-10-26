@@ -4,7 +4,6 @@ import { authenticateToken } from '../middleware/auth.js';
 
 const router = Router();
 
-// Route to get user statistics
-router.get('/api/user/stats', authenticateToken, getUserStats);
+router.get('/stats', authenticateToken, getUserStats);
 
 export default router;
