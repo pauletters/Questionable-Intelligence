@@ -30,17 +30,23 @@ const UserAccount: React.FC = () => {
           },
         });
 
-        // Log the raw response for debugging
-        const textResponse = await response.text(); // Get the response as text
-        console.log('Raw response:', textResponse); // Log the raw response
-
-        // If response is not ok, throw an error
         if (!response.ok) {
-          throw new Error('Failed to fetch user stats');
+          console.error(`Error: Received status ${response.status}`);
+          throw new Error(`Failed to fetch user stats, status: ${response.status}`);
         }
 
-        const data = JSON.parse(textResponse); // Parse as JSON after logging
-        setUserStats(data);
+        const textResponse = await response.text();
+        console.log('Raw response:', textResponse);
+
+        // Check if response is JSON
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = JSON.parse(textResponse);
+          setUserStats(data);
+        } else {
+          console.error("Expected JSON, but received HTML or another format.");
+          throw new Error("Invalid response format");
+        }
       } catch (err) {
         console.error('Error fetching user stats:', err);
         setError('Failed to load user statistics');
@@ -68,48 +74,35 @@ const UserAccount: React.FC = () => {
     <div className="account-container">
       <div className="account-card">
         <h1 className="account-title">User Profile</h1>
-        
-      
-
-        {/* Stats Grid */}
         <div className="stats-grid">
-          {/* Username */}
           <div className="stat-card">
             <h3>Username</h3>
             <p>{userStats.username}</p>
           </div>
 
-          {/* Questions Answered */}
           <div className="stat-card">
             <h3>Questions Answered</h3>
             <p>{userStats.questionsAnswered}</p>
           </div>
 
-          {/* Success Rate */}
           <div className="stat-card">
             <h3>Success Rate</h3>
             <p>{userStats.percentageCorrect}%</p>
           </div>
 
-          {/* Best Category */}
           <div className="stat-card">
             <h3>Best Category</h3>
             <p className="best">{userStats.bestCategory || 'N/A'}</p>
           </div>
 
-          {/* Worst Category */}
           <div className="stat-card">
             <h3>Worst Category</h3>
             <p className="worst">{userStats.worstCategory || 'N/A'}</p>
           </div>
         </div>
 
-        {/* Refresh Button */}
         <div className="button-container">
-          <button 
-            onClick={() => window.location.reload()}
-            className="refresh-button"
-          >
+          <button onClick={() => window.location.reload()} className="refresh-button">
             Refresh Stats
           </button>
         </div>

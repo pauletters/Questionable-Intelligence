@@ -8,7 +8,7 @@ import ErrorPage from './pages/ErrorPage.tsx';
 import LeaderBoard from './pages/LeaderBoard.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import UserAccount from './pages/UserAccount.tsx';
-import QuestionPage from './pages/QuestionPage.tsx';
+import Quiz from './components/quiz.tsx';
 import Form from './pages/Form.tsx';
 import Results from './pages/Results.tsx';
 
@@ -34,8 +34,8 @@ const router = createBrowserRouter([
         element: <UserAccount />
       },
       {
-        path: '/QuestionPage',
-        element: <QuestionPage />
+        path: '/Quiz',
+        element: <Quiz />
       },
       {
         path: '/Form',

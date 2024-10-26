@@ -8,10 +8,15 @@ const decodeHtmlEntities = (text: string) => {
   return textArea.value;
 };
 
-const QuestionPage: React.FC = () => {
+interface QuestionPageProps {
+
+  onSubmitAnswer: (answer: string, violation: boolean, quizSessionId: string, questionId: string) => Promise<void>;
+
+}
+
+const QuestionPage: React.FC<QuestionPageProps> = ({ onSubmitAnswer }) => {
   const location = useLocation();
   const navigate = useNavigate();
-
   const { questions, userId, quizSessionId } = location.state || { questions: [], userId: null, quizSessionId: null };
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
@@ -24,16 +29,8 @@ const QuestionPage: React.FC = () => {
       return;
     }
   }, [userId, quizSessionId, navigate, questions]);
-  
+
   const handleAnswerSubmit = async () => {
-    const token = localStorage.getItem('id_token');
-
-    if (!token) {
-      console.error('No token found, redirecting to login');
-      navigate('/login');
-      return;
-    }
-
     if (selectedAnswer === '') {
       alert('Please select an answer before submitting.');
       return;
@@ -44,40 +41,10 @@ const QuestionPage: React.FC = () => {
       return;
     }
 
-    const currentQuestion = questions[currentIndex];
-    const questionId = currentQuestion?.id;
 
-    if (!questionId) {
-      console.error('Question ID is null or undefined');
-      return;
-    }
-
-    const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
-  
     try {
-      const response = await fetch('/api/submitAnswer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          userId,
-          questionId,
-          quizSessionId,
-          userAnswer: selectedAnswer,
-          isCorrect,
-        }),
-      });
-
-      if (response.status === 401) {
-        console.error('Unauthorized: Token may be invalid or expired');
-        navigate('/login');
-      } else if (!response.ok) {
-        console.error('Failed to submit answer:', response.statusText);
-      } else {
-        await response.json();
-      }
+      // Call the submitAnswer function passed in through props
+      await onSubmitAnswer(selectedAnswer, false, quizSessionId, currentQuestion.id); // Assuming no violation for now
     } catch (error) {
       console.error('Error submitting answer:', error);
       setError('An error occurred while submitting the answer');

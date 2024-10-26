@@ -1,50 +1,77 @@
+// src/routes/answer-routes.ts
 import { Router, Request, Response } from 'express';
 import { Answer } from '../models/answer.js';
 import { Question } from '../models/question.js';
-import { QuizSession } from '../models/quizSession.js';  // Ensure this model is imported
 
 const router = Router();
 
-// POST /api/submitAnswer - Submit user's answer to a question
-router.post('/', async (req: Request, res: Response) => {
-  const { userId, questionId, quizSessionId, userAnswer } = req.body;
+// POST /api/answers/submit - Submit an answer for a question
+router.post('/submit', async (req: Request, res: Response) => {
+  const { answer, violation, quizSessionId, questionId } = req.body;
+  const userId = req.user?.id; // Make sure req.user is populated with user ID, typically through a middleware
+
+  if (!userId) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
+
+  if (!answer || !quizSessionId || !questionId) {
+    return res.status(400).json({ message: 'Missing required fields' });
+  }
 
   try {
-    // Step 1: Validate the quiz session exists
-    const quizSession = await QuizSession.findByPk(quizSessionId);
-    if (!quizSession) {
-      return res.status(404).json({ message: 'Quiz session not found' });
-    }
-
-    // Step 2: Find the question by its ID
+    // Fetch the correct answer from the Question model
     const question = await Question.findByPk(questionId);
+
     if (!question) {
       return res.status(404).json({ message: 'Question not found' });
     }
 
-    // Step 3: Check if the user's answer is correct
-    const isCorrect = question.correctAnswer === userAnswer;
+    // Compare the provided answer with the correct answer
+    const isCorrect = answer === question.correctAnswer;
 
-    // Step 4: Store the answer in the database
-    const answer = await Answer.create({
+    // Save the answer with the violation status
+    const newAnswer = await Answer.create({
       userId,
       questionId,
       quizSessionId,
-      userAnswer,
+      userAnswer: answer,
       isCorrect,
-      category: question.category,
+      violation,
+      category: question.category
     });
 
-    // Step 5: Return the result
-    return res.status(201).json({ message: 'Answer submitted successfully', answer });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error('Error submitting answer:', error.message, error.stack);
-      return res.status(500).json({ message: 'Server error', error: error.message });
-    } else {
-      console.error('Unknown error occurred:', error);
-      return res.status(500).json({ message: 'Unknown server error' });
+    return res.status(201).json({ message: 'Answer submitted', newAnswer });
+  } catch (error) {
+    console.error('Error submitting answer:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// GET /api/answers/:quizSessionId - Fetch answers for a specific quiz session
+router.get('/:quizSessionId', async (req: Request, res: Response) => {
+  const { quizSessionId } = req.params;
+
+  try {
+    // Fetch all answers for the given quiz session, including the related question data
+    const answers = await Answer.findAll({
+      where: { quizSessionId },
+      include: [
+        {
+          model: Question,
+          as: 'question',
+          attributes: ['text', 'correctAnswer'], // Ensure these fields match your model
+        }
+      ],
+    });
+
+    if (!answers || answers.length === 0) {
+      return res.status(404).json({ message: 'No answers found for this quiz session' });
     }
+
+    return res.status(200).json({ answers });
+  } catch (error) {
+    console.error('Error fetching answers:', error);
+    return res.status(500).json({ message: 'Server error' });
   }
 });
 
