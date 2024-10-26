@@ -112,8 +112,8 @@ const LeaderBoard: React.FC = () => {
             {sortedUserStats.map((user, index) => (
               <tr key={index}>
                 <td>{user.username}</td>
-                <td>{user.totalQuestions}</td>
                 <td>{user.correctAnswers}</td>
+                <td>{user.totalQuestions}</td>
                 <td>{user.correctPercentage.toFixed(2)}%</td>
               </tr>
             ))}

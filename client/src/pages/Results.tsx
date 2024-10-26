@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+const decodeHtmlEntities = (text: string) => {
+  if (!text) return '';
+  const textArea = document.createElement('textarea');
+  textArea.innerHTML = text;
+  return textArea.value.replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+};
+
 const Results: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -15,7 +22,6 @@ const Results: React.FC = () => {
       const token = localStorage.getItem('id_token');
       
       if (!token) {
-        console.error('No token found, redirecting to login');
         navigate('/login');
         return;
       }
@@ -26,10 +32,9 @@ const Results: React.FC = () => {
             'Authorization': `Bearer ${token}`,
           },
         });
-        
+
         if (!response.ok) {
           if (response.status === 401) {
-            console.error('Unauthorized: Token may be invalid or expired');
             navigate('/login');
           } else {
             throw new Error(`Error fetching answers: ${response.statusText}`);
@@ -66,7 +71,9 @@ const Results: React.FC = () => {
           <ul className="results-list">
             {answers.map((answer) => (
               <li key={answer.id} className="results-list-item">
-                Question: {answer.questionText} - Your answer: {answer.userAnswer} - Correct answer: {answer.isCorrect ? 'Yes' : 'No'}
+                Question: {decodeHtmlEntities(answer.question?.text || 'No text available')} - 
+                Your answer: {decodeHtmlEntities(answer.userAnswer)} - 
+                Correct answer: {decodeHtmlEntities(answer.question?.correctAnswer || 'No correct answer available')}
               </li>
             ))}
           </ul>
