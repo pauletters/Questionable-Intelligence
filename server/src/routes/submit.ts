@@ -32,6 +32,7 @@ router.post('/', async (req: Request, res: Response) => {
       quizSessionId,
       userAnswer,
       isCorrect,
+      category: question.category,
     });
 
     // Step 5: Return the result

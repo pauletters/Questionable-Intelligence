@@ -1,25 +1,21 @@
 import { seedUsers } from './user-seeds.js';
 import { seedQuestions } from './question-seeds.js';
-import { seedAnswers } from './answer-seeds.js';
 import { seedQuizSessions } from './quizSession-seeds.js';
-import { User, Question, Answer, QuizSession } from '../models/index.js';  // Updated import for Answer
+import { seedAnswers } from './answer-seeds.js';
+import { sequelize, User, Question, Answer, QuizSession } from '../models/index.js';
 
 const seedAll = async (): Promise<void> => {
   try {
-    // Check if we need to seed by looking for existing data
+    console.log('Synchronizing database schema...');
+    await sequelize.sync({ force: true }); // This drops and recreates tables
+    console.log('Database synchronized successfully.');
+
     const userCount = await User.count();
     const questionCount = await Question.count();
-    const answerCount = await Answer.count();  // Updated to reflect the correct model
-    const quizSessionCount = await QuizSession.count();  // Added to check for quiz sessions
+    const quizSessionCount = await QuizSession.count();
+    const answerCount = await Answer.count();
 
-    console.log('Current database state:');
-    console.log(`Users: ${userCount}`);
-    console.log(`Questions: ${questionCount}`);
-    console.log(`Answers: ${answerCount}`);
-    console.log(`Quiz Sessions: ${quizSessionCount}`);
-
-    // Only seed if the database is empty
-    if (userCount === 0 && questionCount === 0 && answerCount === 0 && quizSessionCount === 0) {
+    if (userCount === 0 && questionCount === 0 && quizSessionCount === 0 && answerCount === 0) {
       console.log('\nDatabase is empty, starting seed process...');
 
       await seedUsers();
@@ -28,21 +24,17 @@ const seedAll = async (): Promise<void> => {
       await seedQuestions();
       console.log('\n----- QUESTIONS SEEDED -----\n');
 
+      // Ensure Quiz Sessions are seeded before Answers to satisfy foreign key constraints
+      await seedQuizSessions();
+      console.log('\n----- QUIZ SESSIONS SEEDED -----\n');
+
       await seedAnswers();
       console.log('\n----- ANSWERS SEEDED -----\n');
 
-      await seedQuizSessions();
-      console.log('\n----- QUIZ SESSIONS SEEDED -----\n');  
-
-      console.log('Seeding complete! New database state:');
-      console.log(`Users: ${await User.count()}`);
-      console.log(`Questions: ${await Question.count()}`);
-      console.log(`Answers: ${await Answer.count()}`);
-      console.log(`Quiz Sessions: ${await QuizSession.count()}`);
+      console.log('Seeding complete!');
     } else {
       console.log('\nDatabase already contains data, skipping seed process');
     }
-
     process.exit(0);
   } catch (error) {
     console.error('Error seeding database:', error);

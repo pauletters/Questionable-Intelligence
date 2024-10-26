@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Auth from '../utils/auth';
-import { useState, useEffect } from 'react';
 
 interface UserStats {
   username: string;
-  gamesCompleted: number;
+  questionsAnswered: number;
   percentageCorrect: number;
   bestCategory: string;
   worstCategory: string;
-  violations: number;
 }
 
 const UserAccount: React.FC = () => {
@@ -32,11 +30,16 @@ const UserAccount: React.FC = () => {
           },
         });
 
+        // Log the raw response for debugging
+        const textResponse = await response.text(); // Get the response as text
+        console.log('Raw response:', textResponse); // Log the raw response
+
+        // If response is not ok, throw an error
         if (!response.ok) {
           throw new Error('Failed to fetch user stats');
         }
 
-        const data = await response.json();
+        const data = JSON.parse(textResponse); // Parse as JSON after logging
         setUserStats(data);
       } catch (err) {
         console.error('Error fetching user stats:', err);
@@ -66,12 +69,7 @@ const UserAccount: React.FC = () => {
       <div className="account-card">
         <h1 className="account-title">User Profile</h1>
         
-        {/* User Avatar/Icon Section */}
-        <div className="avatar-container">
-          <div className="avatar">
-            <span>{userStats.username.charAt(0).toUpperCase()}</span>
-          </div>
-        </div>
+      
 
         {/* Stats Grid */}
         <div className="stats-grid">
@@ -81,10 +79,10 @@ const UserAccount: React.FC = () => {
             <p>{userStats.username}</p>
           </div>
 
-          {/* Games Completed */}
+          {/* Questions Answered */}
           <div className="stat-card">
-            <h3>Games Completed</h3>
-            <p>{userStats.gamesCompleted}</p>
+            <h3>Questions Answered</h3>
+            <p>{userStats.questionsAnswered}</p>
           </div>
 
           {/* Success Rate */}
@@ -96,19 +94,13 @@ const UserAccount: React.FC = () => {
           {/* Best Category */}
           <div className="stat-card">
             <h3>Best Category</h3>
-            <p className="best">{userStats.bestCategory}</p>
+            <p className="best">{userStats.bestCategory || 'N/A'}</p>
           </div>
 
           {/* Worst Category */}
           <div className="stat-card">
             <h3>Worst Category</h3>
-            <p className="worst">{userStats.worstCategory}</p>
-          </div>
-
-          {/* Violations */}
-          <div className="stat-card">
-            <h3>Violations</h3>
-            <p className="violations">{userStats.violations}</p>
+            <p className="worst">{userStats.worstCategory || 'N/A'}</p>
           </div>
         </div>
 
