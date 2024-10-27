@@ -99,26 +99,28 @@ const LeaderBoard: React.FC = () => {
       <div className="page-layout">
         <h1>Leaderboard</h1>
         <p>Are you winning?</p>
-        <table className="leaderboard-table">
-          <thead>
-            <tr>
-              <th onClick={() => requestSort('username')}>Username</th>
-              <th onClick={() => requestSort('correctAnswers')}>Correct Answers</th>
-              <th onClick={() => requestSort('totalQuestions')}>Total Questions</th>
-              <th onClick={() => requestSort('correctPercentage')}>Correct Percentage</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedUserStats.map((user, index) => (
-              <tr key={index}>
-                <td>{user.username}</td>
-                <td>{user.correctAnswers}</td>
-                <td>{user.totalQuestions}</td>
-                <td>{user.correctPercentage.toFixed(2)}%</td>
+        <div className="table-container">
+          <table className="leaderboard-table">
+            <thead>
+              <tr>
+                <th onClick={() => requestSort('username')}>Username</th>
+                <th onClick={() => requestSort('correctAnswers')}>Correct Answers</th>
+                <th onClick={() => requestSort('totalQuestions')}>Total Questions</th>
+                <th onClick={() => requestSort('correctPercentage')}>Correct Percentage</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sortedUserStats.map((user, index) => (
+                <tr key={index}>
+                  <td>{user.username}</td>
+                  <td>{user.correctAnswers}</td>
+                  <td>{user.totalQuestions}</td>
+                  <td>{user.correctPercentage.toFixed(2)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </main>
   );
