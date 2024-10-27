@@ -143,7 +143,7 @@ button:focus-visible {
 }
 
 .page-layout {
-  width: 85rem;
+  width: 80%;
   height: 60%;
   background-color: #193ddb6e;
   padding: 2.5%;
@@ -154,6 +154,37 @@ button:focus-visible {
   box-shadow: #3fc9ff 0px 0px 10px;
   border-radius: 10px;
   color: rgb(63, 201, 255);
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 80%;
+}
+
+.form-button {
+  margin-top: 1rem;
+  width: auto;
+  min-width: 200px;
+  background-color: #3fc9ff;
+  color: white;
+}
+
+.refresh-button {
+  margin-top: 1rem;
+  width: auto;
+  min-width: 200px;
+  background-color: #3fc9ff;
+  color: white;
 }
 
 .form2 {
@@ -234,21 +265,70 @@ button:focus-visible {
     margin-top: 2rem;
   }
 
+.shame-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.leaderboard-table {
+  width: 100%; /* Make the table take the full width */
+  border-collapse: collapse; /* Collapse borders */
+  table-layout: auto; /* Allow the table to adjust columns based on content */
+}
+
+.leaderboard-table th, .leaderboard-table td {
+  padding: 0.5rem; /* Adjust padding for better spacing */
+  text-align: left; /* Align text to the left */
+  word-wrap: break-word; /* Allow long words to break */
+}
+
+.table-container {
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
+  width: 100%; /* Full width of the parent */
+}
+
 /* Responsive Media Queries */
 @media (max-width: 768px) {
-  .form {
+  .form, .form-container, .shame-table{
     padding: 1.5rem;
     margin: 1rem;
+  }
+
+  .nav ul {
+    width: 80%;
   }
 
   .page-layout {
     padding: 1.5rem;
-    margin: 1rem;
+    margin-top: 1rem;
+    
+  }
+
+  th, td {
+    padding: 0.3rem; /* Adjust padding for smaller screens */
+    font-size: 10px; /* Adjust font size */
+  }
+}
+
+@media (max-width: 640px) {
+  .page-layout, .shame-table, .leaderboard-table {
+    width: 95%; /* Make it wider on smaller screens */
+    padding: 1rem; /* Adjust padding */
+  }
+
+  th, td {
+    padding: 0.3rem; /* Adjust padding for smaller screens */
+    font-size: 10px; /* Adjust font size */
   }
 }
 
 @media (max-width: 480px) {
-  .form {
+  .form, .form-container, main, .shame-table {
     padding: 1rem;
   }
 
@@ -260,7 +340,17 @@ button:focus-visible {
   .page-layout {
     padding: 1rem;
   }
+
+  th, td {
+    padding: 0.3rem; /* Adjust padding for smaller screens */
+    font-size: 10px; /* Adjust font size */
+  }
+
+  h1 {
+    font-size: 45px; /* Adjust font size */
+  }
 }
+
 
 /* Utility Classes */
 .shadow-text {
