@@ -156,6 +156,19 @@ button:focus-visible {
   color: rgb(63, 201, 255);
 }
 
+.form2 {
+  width: 100%;
+  max-width: 400px;
+  min-height: 500px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2 rem auto;
+  border-radius: 10px;
+}
+
 .form {
   width: 100%;
   max-width: 400px;
