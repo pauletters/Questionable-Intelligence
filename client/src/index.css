@@ -20,6 +20,10 @@ body {
     flex-direction: column;
 }
   
+li { 
+  margin-bottom: 10px;
+}
+
 body::before {
     content: "";
     position: fixed;
