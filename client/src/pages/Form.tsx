@@ -89,7 +89,9 @@ const Form: React.FC = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container page-layout">
+      <h3 className="shadow-text">Questionable Intelligence Trivia</h3>
+      <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '75px', borderRadius: '50%' }} />
       <h1 className="form-heading">Generate Quiz</h1>
       <div className="form-group">
         <label htmlFor="category">Category</label>

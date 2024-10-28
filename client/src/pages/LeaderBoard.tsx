@@ -97,6 +97,8 @@ const LeaderBoard: React.FC = () => {
   return (
     <main>
       <div className="page-layout">
+      <h3 className="shadow-text">Questionable Intelligence</h3>
+      <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '75px', borderRadius: '50%' }} />
         <h1>Leaderboard</h1>
         <p>Are you winning?</p>
         <div className="table-container">
