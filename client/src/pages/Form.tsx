@@ -140,6 +140,9 @@ const Form: React.FC = () => {
       </div>
 
       <button onClick={handleGenerate} className="form-button">Generate Quiz</button>
+
+      <p className="form-warning">Warning: Do not try and find answers from other sites. We are watching...</p>
+      
     </div>
   );
 };
