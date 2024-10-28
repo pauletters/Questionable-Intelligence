@@ -7,6 +7,12 @@ interface UserStats {
   percentageCorrect: number;
   bestCategory: string;
   worstCategory: string;
+  achievements: {
+    [key: string]: {
+      unlocked: boolean;
+      badgeImage: string;
+    };
+  };
 }
 
 const UserAccount: React.FC = () => {
@@ -71,8 +77,10 @@ const UserAccount: React.FC = () => {
   }
 
   return (
-    <div className="account-container">
+    <div className="account-container page-layout">
       <div className="account-card">
+      <h3 className="shadow-text">Questionable Intelligence</h3>
+      <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '50px', borderRadius: '50%' }} />
         <h1 className="account-title">User Profile</h1>
         <div className="stats-grid">
           <div className="stat-card">
@@ -100,7 +108,43 @@ const UserAccount: React.FC = () => {
             <p className="worst">{userStats.worstCategory || 'N/A'}</p>
           </div>
         </div>
-
+        
+        <div className="achievement-container">
+            <h3>Achievements</h3>
+            <div className="achievement-row">
+              {userStats.achievements
+                ? Object.keys(userStats.achievements).map((achievement) => (
+                <div
+                  key={achievement}
+                  className={`achievement-card ${
+                    userStats.achievements[achievement].unlocked
+                      ? 'unlocked'
+                      : 'locked'
+                  }`}
+                >
+                  <div className="achievement-icon">
+                    <img
+                      src={userStats.achievements[achievement].badgeImage}
+                      alt={achievement}
+                      className={`badge ${
+                        userStats.achievements[achievement].unlocked
+                          ? 'visible'
+                          : 'hidden'
+                      }`}
+                    />
+                  </div>
+                  <h4 className="achievement-title">{achievement}</h4>
+                  {userStats.achievements[achievement].unlocked ? (
+                    <p className="achievement-status">Unlocked</p>
+                  ) : (
+                    <p className="achievement-status">Locked</p>
+                  )}
+                </div>
+              ))
+              : null}
+            </div>
+          </div>
+          
         <div className="button-container">
           <button onClick={() => window.location.reload()} className="refresh-button">
             Refresh Stats

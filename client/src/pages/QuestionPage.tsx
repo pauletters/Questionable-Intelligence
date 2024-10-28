@@ -73,6 +73,8 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ onSubmitAnswer }) => {
 
   return (
     <div className="question-container">
+      <h2 className="shadow-text">Questionable Intelligence</h2>
+      <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '150px', borderRadius: '50%' }} />
       <h1 className="question-heading">Question {currentIndex + 1}</h1>
       <p className="question-text">
         {decodeHtmlEntities(currentQuestion?.text || "Loading question...")}

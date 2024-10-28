@@ -59,6 +59,8 @@ const Results: React.FC = () => {
 
   return (
     <div className="results-container">
+      <h3 className="shadow-text">Questionable Intelligence</h3>
+      <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '50px', borderRadius: '50%' }} />
       <h1 className="results-heading">Results</h1>
       {error ? (
         <p className="error-text">{error}</p>

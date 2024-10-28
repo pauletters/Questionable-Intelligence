@@ -61,6 +61,8 @@ const HallOfShame: React.FC = () => {
   return (
     <main>
       <div className="page-layout">
+      <h2 className="shadow-text">Questionable Intelligence</h2>
+      <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '150px', borderRadius: '50%' }} />
         <h1>Hall of Shame</h1>
         <p>Here are the worst of the worst:</p>
         {shameData.length > 0 ? (

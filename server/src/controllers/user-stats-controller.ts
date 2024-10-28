@@ -10,6 +10,7 @@ interface UserStatsAttributes {
   percentageCorrect: number;
   bestCategory?: string;
   worstCategory?: string;
+  achievements?: Record<string, { unlocked: boolean; badgeImage: string }>;
 }
 
 
@@ -98,6 +99,14 @@ export const getUserStats = async (req: Request, res: Response): Promise<void> =
       percentageCorrect: Number((userStats as any).getDataValue('percentageCorrect')) ?? 0,
       bestCategory: bestCategory.category,
       worstCategory: worstCategory.category,
+      achievements: {
+        'First Answer': { unlocked: userStats.correctAnswers > 0, badgeImage: '/first-answer.png' },
+        'Ten Correct': { unlocked: userStats.correctAnswers >= 10, badgeImage: '/ten-correct.png' },
+        'Fifty Correct': { unlocked: userStats.correctAnswers >= 50, badgeImage: '/fifty-correct.png' },
+        'One Hundred Correct': { unlocked: userStats.correctAnswers >= 100, badgeImage: '/one-hundred-correct.png' },
+        'Best Category': { unlocked: bestCategory.percentage > 0, badgeImage: '/best-category.png' },
+        'Worst Category': { unlocked: worstCategory.percentage < 100, badgeImage: '/worst-category.png' },
+      },
     };
 
     res.json(responseStats);
