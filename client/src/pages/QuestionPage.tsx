@@ -72,7 +72,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ onSubmitAnswer }) => {
   }
 
   return (
-    <div className="question-container">
+    <div className="form-container page-layout">
       <h2 className="shadow-text">Questionable Intelligence</h2>
       <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '150px', borderRadius: '50%' }} />
       <h1 className="question-heading">Question {currentIndex + 1}</h1>
@@ -93,7 +93,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ onSubmitAnswer }) => {
         ))}
       </select>
 
-      <button className="submit-button" onClick={handleAnswerSubmit}>Submit Answer</button>
+      <button className="form-button" onClick={handleAnswerSubmit}>Submit Answer</button>
     </div>
   );
 };
