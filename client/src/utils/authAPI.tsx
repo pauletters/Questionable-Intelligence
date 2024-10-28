@@ -1,13 +1,13 @@
 import { UserLogin } from "../users/UserLogin";
-import { jwtDecode } from 'jwt-decode';  // Import jwt-decode to decode the JWT
+import { jwtDecode } from 'jwt-decode';
 
-// Define the structure of the token payload
+// Defines the structure of the token payload
 interface TokenPayload {
-  id: string;  // Assuming the payload has an 'id' field for userId
+  id: string;  
   username: string;
 }
 
-// Define the structure of the API response
+// Defines the structure of the API response
 interface LoginResponse {
   token: string; // JWT token returned by the API
 }
@@ -21,7 +21,7 @@ export const login = async (userInfo: UserLogin) => {
   });
 
   try {
-    // Send a POST request to the login endpoint
+    // Sends a POST request to the login endpoint
     const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
@@ -32,7 +32,7 @@ export const login = async (userInfo: UserLogin) => {
 
     console.log('Response status:', response.status);
 
-    // If the response is not successful, handle the error
+    // If the response is not successful, handles the error
     if (!response.ok) {
       const errorData = await response.json();
       console.error('Login failed:', errorData);
@@ -42,7 +42,7 @@ export const login = async (userInfo: UserLogin) => {
       throw new Error('Login Failed');
     }
 
-    // Parse the response as a LoginResponse object
+    // Parses the response as a LoginResponse object
     const data: LoginResponse = await response.json();
     const token = data.token;
     console.log('Login successful, token received:', token);
