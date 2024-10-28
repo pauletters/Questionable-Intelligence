@@ -48,11 +48,11 @@ export const register = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   try {
-    // Count the number of users before registration
+    // Counts the number of users before registration
     const beforeCount = await User.count();
     console.log(`Total users in database before registration: ${beforeCount}`);
 
-    // Check if the user already exists
+    // Checks if the user already exists
     const existingUser = await User.findOne({ where: { username } });
     if (existingUser) {
       console.log(`User ${username} already exists`);
@@ -63,6 +63,7 @@ export const register = async (req: Request, res: Response) => {
     const newUser = await User.create({ username, password });
     console.log(`User ${username} created successfully`);
 
+    // Verify user creation by finding the user in the database
     const verifyUser = await User.findByPk(newUser.id);
     if (verifyUser) {
       console.log(`User ${username} found in database`);

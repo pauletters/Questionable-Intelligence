@@ -63,7 +63,7 @@ class AuthService {
         this.logout();
         return false;
       }
-
+      
       const inactiveTime = Date.now() - this.lastActivityTime;
       if (inactiveTime > this.INACTIVITY_TIMEOUT) {
         console.log('Session expired due to inactivity');

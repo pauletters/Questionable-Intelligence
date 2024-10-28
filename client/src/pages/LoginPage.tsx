@@ -14,6 +14,7 @@ const Login = () => {
   });
   const [error, setError] = useState<string | null>(null);
 
+  // This function will update the form data when the user types
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -22,6 +23,7 @@ const Login = () => {
     });
   };
 
+  // This function will handle the login form submission
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     try {
@@ -49,6 +51,7 @@ const Login = () => {
     }
   };
 
+  // This function will handle the signup form submission by sending a POST request to the /api/auth/register endpoint
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
