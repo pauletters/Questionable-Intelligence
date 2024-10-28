@@ -100,12 +100,12 @@ export const getUserStats = async (req: Request, res: Response): Promise<void> =
       bestCategory: bestCategory.category,
       worstCategory: worstCategory.category,
       achievements: {
-        'First Answer': { unlocked: userStats.correctAnswers > 0, badgeImage: '/first-answer.png' },
-        'Ten Correct': { unlocked: userStats.correctAnswers >= 10, badgeImage: '/ten-correct.png' },
-        'Fifty Correct': { unlocked: userStats.correctAnswers >= 50, badgeImage: '/fifty-correct.png' },
-        'One Hundred Correct': { unlocked: userStats.correctAnswers >= 100, badgeImage: '/one-hundred-correct.png' },
-        'Best Category': { unlocked: bestCategory.percentage > 0, badgeImage: '/best-category.png' },
-        'Worst Category': { unlocked: worstCategory.percentage < 100, badgeImage: '/worst-category.png' },
+        'First Answer': { unlocked: userStats.correctAnswers > 0, badgeImage: 'https://github.com/pauletters/Questionable-Intelligence/blob/main/public/first-answer.PNG?raw=true' },
+        'Ten Correct': { unlocked: userStats.correctAnswers >= 10, badgeImage: 'https://github.com/pauletters/Questionable-Intelligence/blob/main/public/ten-correct.PNG?raw=true' },
+        'Fifty Correct': { unlocked: userStats.correctAnswers >= 50, badgeImage: 'https://github.com/pauletters/Questionable-Intelligence/blob/main/public/fifty-correct.PNG?raw=true' },
+        'One Hundred Correct': { unlocked: userStats.correctAnswers >= 100, badgeImage: 'https://github.com/pauletters/Questionable-Intelligence/blob/main/public/one-hundred-correct.PNG?raw=true' },
+        'Best Category': { unlocked: bestCategory.percentage > 0, badgeImage: 'https://github.com/pauletters/Questionable-Intelligence/blob/main/public/best-category.PNG?raw=true' },
+        'Worst Category': { unlocked: worstCategory.percentage < 100, badgeImage: 'https://github.com/pauletters/Questionable-Intelligence/blob/main/public/worst-category.PNG?raw=true' },
       },
     };
 
