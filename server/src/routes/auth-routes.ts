@@ -1,7 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { User } from '../models/user.js';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 
 export const login = async (req: Request, res: Response) => {
   console.log('Login request received', req.body);
@@ -60,12 +59,8 @@ export const register = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Username already exists' });
     }
 
-    // Hashes the password before creating the user
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // Create new user with hashed password
-    const newUser = await User.create({ username, password: hashedPassword });
+    // Create new user
+    const newUser = await User.create({ username, password });
     console.log(`User ${username} created successfully`);
 
     // Verify user creation by finding the user in the database
