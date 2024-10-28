@@ -71,9 +71,9 @@ const Results: React.FC = () => {
           </p>
           <h2 className="results-subheading">Detailed Results</h2>
           <ul className="results-list">
-            {answers.map((answer) => (
+            {answers.map((answer, index) => (
               <li key={answer.id} className="results-list-item">
-                Question: {decodeHtmlEntities(answer.question?.text || 'No text available')} - 
+                Question {index + 1}: {decodeHtmlEntities(answer.question?.text || 'No text available')} - 
                 Your answer: {decodeHtmlEntities(answer.userAnswer)} - 
                 Correct answer: {decodeHtmlEntities(answer.question?.correctAnswer || 'No correct answer available')}
               </li>
