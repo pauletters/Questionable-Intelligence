@@ -1,39 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import auth from '../utils/auth';
 
-
 const Nav: React.FC = () => {
-
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   
   const handleLogout = () => {
     auth.logout();
-    navigate('/', { replace: true }); // Redirect to home page after logout
+    navigate('/', { replace: true });
+    setIsOpen(false);
   }
-  
-  const handleHomeClick = () => {
-    if (auth.loggedIn()) { // Check if the user is logged in
-      navigate('/Form'); // Redirect to the form page
-    } else {
-      navigate('/'); // Redirect to the login page
-    }
-  };
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  }
 
   if (!auth.loggedIn() || location.pathname === '/') {
-    return null; // Do not render the nav bar if the user is not logged in
+    return null;
   }
 
   return (
     <nav className="nav">
-      <ul>
+      <button 
+        className={`hamburger ${isOpen ? 'active' : ''}`} 
+        onClick={toggleMenu}
+        aria-label="menu"
+      >
+        <span className="line"></span>
+        <span className="line"></span>
+        <span className="line"></span>
+      </button>
+
+      <ul className={`nav-menu ${isOpen ? 'active' : ''}`}>
         <li className="nav-item">
-          <button className="nav-button"
-            onClick={handleHomeClick} // Use button for home link
+          <NavLink
+            to="/Form"
+            className={({ isActive }) => 
+              `nav-link ${isActive ? 'active' : ''}`
+            }
+            onClick={() => setIsOpen(false)}
           >
             Home
-          </button>
+          </NavLink>
         </li>
         <li className="nav-item">
           <NavLink 
@@ -41,6 +51,7 @@ const Nav: React.FC = () => {
             className={({ isActive }) => 
               `nav-link ${isActive ? 'active' : ''}`
             }
+            onClick={() => setIsOpen(false)}
           >
             Leaderboard
           </NavLink>
@@ -51,6 +62,7 @@ const Nav: React.FC = () => {
             className={({ isActive }) => 
               `nav-link ${isActive ? 'active' : ''}`
             }
+            onClick={() => setIsOpen(false)}
           >
             Hall of Shame
           </NavLink>
@@ -61,15 +73,16 @@ const Nav: React.FC = () => {
             className={({ isActive }) => 
               `nav-link ${isActive ? 'active' : ''}`
             }
+            onClick={() => setIsOpen(false)}
           >
             User Account
           </NavLink>
         </li>
         <li className='nav-item'>
-            <button className="nav-button" onClick={handleLogout}>
-              Logout
-            </button>
-          </li>
+          <button className="nav-button" onClick={handleLogout}>
+            Logout
+          </button>
+        </li>
       </ul>
     </nav>
   );

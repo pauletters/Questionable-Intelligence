@@ -20,10 +20,6 @@ body {
     flex-direction: column;
 }
   
-li { 
-  margin-bottom: 10px;
-}
-
 body::before {
     content: "";
     position: fixed;
@@ -89,21 +85,22 @@ button:focus-visible {
 /* Navbar Content */
 .nav {
   display: flex;
-  padding: 2em 1.2em;
+  padding: 1em 1.2em;
   justify-content: center;
+  position: relative;
 }
 
-.nav ul {
+.nav-menu {
   display: flex;
-  flex-direction: row;
   align-items: center;
   padding: 0;
   margin: 0;
   gap: 2rem;
+  list-style: none;
 }
 
 .nav-item {
-  list-style: none;
+  margin: 0;
 }
 
 .nav-link, .nav-button {
@@ -127,12 +124,28 @@ button:focus-visible {
   color: #3fc9ff;
 }
 
-.nav-button:focus {
-  outline: none;
+/* Hamburger button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
 }
 
-.nav-button:active {
-  transform: none;
+.hamburger .line {
+  width: 2rem;
+  height: 0.25rem;
+  background: #fff;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
 }
 
 .card {
@@ -172,7 +185,7 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  width: 40%;
+  width: 80%;
 }
 
 .form-button {
@@ -248,12 +261,6 @@ button:focus-visible {
   border-color: white;
 }
 
-.form-warning {
-  margin-top: 3rem;
-  text-align: center;
-  color: rgb(63, 201, 255);
-}
-
 .toggle-button {
   background: transparent !important;
   color: #3fc9ff !important;
@@ -323,6 +330,7 @@ th, td {
 
 .achievement-container {
   width: 60%;
+  height: 60%;
   background-color: #1616165b;
   padding: 2.5%;
   display: flex;
@@ -384,58 +392,60 @@ th, td {
   color: #666;
 }
 
-.question-text {
-  text-align: center;
-}
-
-.leaderboard-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: Arial, sans-serif;
-}
-
-.leaderboard-table th,
-.leaderboard-table td {
-  padding: 12px;
-  border: 1px solid #ddd; /* Add visible borders */
-  text-align: center;
-}
-
-.shame-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: Arial, sans-serif;
-}
-
-.shame-table th,
-.shame-table td {
-  padding: 12px;
-  border: 1px solid #ddd; /* Add visible borders */
-  text-align: center;
-}
-
-.warning-text{
-  color: #ff4444;
-  text-align: center;
-}
-
 /* Responsive Media Queries */
 @media (max-width: 768px) {
-  .form, .form-container, .shame-table {
+  .form, .form-container, .shame-table{
     padding: 1.5rem;
     margin: 1rem;
   }
 
-  .nav ul {
-    width: 80%;
-    flex-wrap: wrap;
+  .nav {
+    padding: 1em;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .hamburger.active .line:first-child {
+    transform: rotate(45deg);
+  }
+
+  .hamburger.active .line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active .line:last-child {
+    transform: rotate(-45deg);
+  }
+
+  .nav-menu {
+    display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    padding-top: 4rem;
+    transition: right 0.3s ease-in-out;
     gap: 1rem;
   }
 
-  .achievement-container {
-    width: 100%;
-    height: 100%;
+  .nav-menu.active {
+    right: 0;
+  }
+
+  .nav-item {
+    margin: 0.5rem 0;
+  }
+
+  .nav-link, .nav-button {
+    font-size: 1.2em;
+    padding: 0.8em 1em;
   }
 
   .page-layout {
@@ -454,11 +464,6 @@ th, td {
   .page-layout, .shame-table, .leaderboard-table {
     width: 95%; /* Make it wider on smaller screens */
     padding: 1rem; /* Adjust padding */
-  }
-
-  .achievement-container {
-    width: 100%;
-    height: 100%;
   }
 
   th, td {
@@ -488,11 +493,6 @@ th, td {
 
   h1 {
     font-size: 45px; /* Adjust font size */
-  }
-
-  .achievement-container {
-    width: 100%;
-    height: 100%;
   }
 }
 
