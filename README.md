@@ -8,7 +8,7 @@ This application is deployed on Render.com. Click the link below to check it out
 
 https://questionable-intelligence.onrender.com
 
-## The Application
+## Technology Used
 
 The application was created using the following technology tools: 
 
@@ -23,7 +23,7 @@ The application was created using the following technology tools:
     TypeScript
 
 ## Description
-Questionable Intelligence is an online trivia game that challenges your intelligence on various genres. You can create your account, then login and save your progress while earning achievements that you can then brag to your colleagues and friends about. It is great for taking a quick break or for playing with friends at parties!
+Questionable Intelligence is an online trivia game that challenges your intelligence on various genres. You can create your own account, then login and track your progress on the leaderboard while also earning achievements that you can then brag to your colleagues and friends about. It is great for taking a quick break or for playing with friends at parties!
 Try it! You'll love it!
 
 ## Table of Contents
