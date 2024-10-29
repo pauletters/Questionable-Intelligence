@@ -452,7 +452,6 @@ th, td {
 
 @media (max-width: 640px) {
   .page-layout, .shame-table, .leaderboard-table {
-    width: 95%; /* Make it wider on smaller screens */
     padding: 1rem; /* Adjust padding */
   }
 
@@ -483,7 +482,7 @@ th, td {
 
   th, td {
     padding: 0.3rem; /* Adjust padding for smaller screens */
-    font-size: 10px; /* Adjust font size */
+    font-size: 7px; /* Adjust font size */
   }
 
   h1 {
