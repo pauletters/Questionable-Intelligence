@@ -141,7 +141,7 @@ const Form: React.FC = () => {
 
       <button onClick={handleGenerate} className="form-button">Generate Quiz</button>
 
-      <p className="warning-text">Warning: Do not try and find answers from other sites. We are watching... 👀</p>
+      <p className="warning-text">[WORK IN PROGRESS] Warning: Do not try and find answers from other sites. We are watching... 👀</p>
       
     </div>
   );

@@ -63,7 +63,7 @@ const HallOfShame: React.FC = () => {
       <h2 className="shadow-text">Questionable Intelligence</h2>
       <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '150px', borderRadius: '50%' }} />
         <h1>Hall of Shame</h1>
-        <p className="warning-text">Here are where all suspected cheaters can be found. We told you we were watching.</p>
+        <p className="warning-text">[WORK IN PROGRESS] Here are where all suspected cheaters can be found. We told you we were watching.</p>
         {shameData.length > 0 ? (
           <table className="shame-table">
             <thead>
