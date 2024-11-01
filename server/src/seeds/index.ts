@@ -7,7 +7,7 @@ import { sequelize, User, Question, Answer, QuizSession } from '../models/index.
 const seedAll = async (): Promise<void> => {
   try {
     console.log('Synchronizing database schema...');
-    await sequelize.sync({ force: true }); // This drops and recreates tables
+    await sequelize.sync({ force: false }); 
     console.log('Database synchronized successfully.');
 
     const userCount = await User.count();
