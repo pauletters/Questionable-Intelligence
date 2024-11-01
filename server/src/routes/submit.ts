@@ -10,12 +10,10 @@ router.post('/submit', async (req: Request, res: Response) => {
   const { answer, violation, quizSessionId, questionId } = req.body;
   const userId = req.user?.id; // Make sure req.user is populated with user ID, typically through a middleware
 
-  // Check for user authentication
   if (!userId) {
     return res.status(401).json({ message: 'Unauthorized user' });
   }
 
-  // Validate required fields
   if (!answer || !quizSessionId || !questionId) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
@@ -39,7 +37,7 @@ router.post('/submit', async (req: Request, res: Response) => {
       userAnswer: answer,
       isCorrect,
       violation,
-      category: question.category,
+      category: question.category
     });
 
     return res.status(201).json({ message: 'Answer submitted', newAnswer });
@@ -62,7 +60,7 @@ router.get('/:quizSessionId', async (req: Request, res: Response) => {
           model: Question,
           as: 'question',
           attributes: ['text', 'correctAnswer'], // Ensure these fields match your model
-        },
+        }
       ],
     });
 
