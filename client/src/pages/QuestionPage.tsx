@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-// Utility function to decode HTML entities (for special characters like apostrophes)
 const decodeHtmlEntities = (text: string) => {
   const textArea = document.createElement('textarea');
   textArea.innerHTML = text;
@@ -9,9 +8,7 @@ const decodeHtmlEntities = (text: string) => {
 };
 
 interface QuestionPageProps {
-
   onSubmitAnswer: (answer: string, violation: boolean, quizSessionId: string, questionId: string) => Promise<void>;
-
 }
 
 const QuestionPage: React.FC<QuestionPageProps> = ({ onSubmitAnswer }) => {
@@ -21,6 +18,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ onSubmitAnswer }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
+  const [violation, setViolation] = useState(false);
 
   useEffect(() => {
     if (!userId || !quizSessionId || !questions || questions.length === 0) {
@@ -29,6 +27,24 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ onSubmitAnswer }) => {
       return;
     }
   }, [userId, quizSessionId, navigate, questions]);
+
+  useEffect(() => {
+    const handleWindowBlur = () => {
+      setViolation(true); // Set violation to true if the user leaves the window
+    };
+    
+    const handleWindowFocus = () => {
+      // Optional: Reset violation on refocus if desired
+    };
+
+    window.addEventListener('blur', handleWindowBlur);
+    window.addEventListener('focus', handleWindowFocus);
+
+    return () => {
+      window.removeEventListener('blur', handleWindowBlur);
+      window.removeEventListener('focus', handleWindowFocus);
+    };
+  }, []);
 
   const handleAnswerSubmit = async () => {
     if (selectedAnswer === '') {
@@ -41,10 +57,9 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ onSubmitAnswer }) => {
       return;
     }
 
-
     try {
-      // Call the submitAnswer function passed in through props
-      await onSubmitAnswer(selectedAnswer, false, quizSessionId, currentQuestion.id); // Assuming no violation for now
+      await onSubmitAnswer(selectedAnswer, violation, quizSessionId, currentQuestion.id);
+      setViolation(false); // Reset violation after submission
     } catch (error) {
       console.error('Error submitting answer:', error);
       setError('An error occurred while submitting the answer');
