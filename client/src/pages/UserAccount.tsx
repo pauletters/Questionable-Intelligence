@@ -15,12 +15,6 @@ interface UserStats {
   };
 }
 
-const decodeHtmlEntities = (text: string) => {
-  const parser = new DOMParser();
-  const decodedString = parser.parseFromString(text, 'text/html').body.textContent;
-  return decodedString || text;
-};
-
 const UserAccount: React.FC = () => {
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
@@ -50,6 +44,7 @@ const UserAccount: React.FC = () => {
         const textResponse = await response.text();
         console.log('Raw response:', textResponse);
 
+        // Check if response is JSON
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.includes("application/json")) {
           const data = JSON.parse(textResponse);
@@ -84,8 +79,8 @@ const UserAccount: React.FC = () => {
   return (
     <div className="account-container page-layout">
       <div className="account-card">
-        <h3 className="shadow-text">Questionable Intelligence</h3>
-        <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '50px', borderRadius: '50%' }} />
+      <h3 className="shadow-text">Questionable Intelligence</h3>
+      <img src="https://github.com/pauletters/Questionable-Intelligence/blob/main/public/images/icon.jpg?raw=true" alt="QI_logo" style={{ width: '50px', borderRadius: '50%' }} />
         <h1 className="account-title">User Profile</h1>
         <div className="stats-grid">
           <div className="stat-card">
@@ -105,20 +100,20 @@ const UserAccount: React.FC = () => {
 
           <div className="stat-card">
             <h3>Best Category</h3>
-            <p className="best">{decodeHtmlEntities(userStats.bestCategory) || 'N/A'}</p>
+            <p className="best">{userStats.bestCategory || 'N/A'}</p>
           </div>
 
           <div className="stat-card">
             <h3>Worst Category</h3>
-            <p className="worst">{decodeHtmlEntities(userStats.worstCategory) || 'N/A'}</p>
+            <p className="worst">{userStats.worstCategory || 'N/A'}</p>
           </div>
         </div>
         
         <div className="achievement-container">
-          <h3>Achievements</h3>
-          <div className="achievement-row">
-            {userStats.achievements
-              ? Object.keys(userStats.achievements).map((achievement) => (
+            <h3>Achievements</h3>
+            <div className="achievement-row">
+              {userStats.achievements
+                ? Object.keys(userStats.achievements).map((achievement) => (
                 <div
                   key={achievement}
                   className={`achievement-card ${
@@ -147,9 +142,9 @@ const UserAccount: React.FC = () => {
                 </div>
               ))
               : null}
+            </div>
           </div>
-        </div>
-        
+          
         <div className="button-container">
           <button onClick={() => window.location.reload()} className="refresh-button">
             Refresh Stats
